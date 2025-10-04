@@ -24,7 +24,7 @@ public class MinHeap<T extends Comparable<T>> implements IMinHeap<T> {
      */
     public MinHeap(List<T> list) {
         this.list = list;
-        minHeapBuilder();
+        buildHeapFast();
     }
 
     /**
@@ -34,6 +34,56 @@ public class MinHeap<T extends Comparable<T>> implements IMinHeap<T> {
      */
     public MinHeap(List<T> firstHeap, List<T> secondHeap) {
         mergeHeaps(firstHeap, secondHeap);
+    }
+
+    /**
+     * In-place heap construction using the McDiarmid–Reed algorithm.
+     * Trickle an empty slot down, then bubble up the saved element.
+     */
+    private void buildHeapFast() {
+        int n = list.size();
+        for (int i = parentOf(n - 1); i >= 0; i--) {
+            mergeAt(i, n);
+        }
+    }
+
+    /**
+     * Merge operation (min-heap version of McDiarmid & Reed "Merge").
+     * Trickle an empty slot down the smaller-child path to a leaf,
+     * then bubble-up the stored element.
+     */
+    private void mergeAt(int root, int n) {
+        T x = list.get(root);
+        int pos = root;
+
+        // trickle empty slot down
+        while (leftChildOf(pos) < n) {
+            int left = leftChildOf(pos);
+            int right = left + 1;
+            int smaller = left;
+
+            if (right < n && list.get(right).compareTo(list.get(left)) < 0) {
+                smaller = right;
+            }
+
+            // move smaller child up into the empty slot
+            list.set(pos, list.get(smaller));
+            pos = smaller;
+        }
+
+        // place x at leaf
+        list.set(pos, x);
+
+        // bubble-up phase
+        while (pos > 0) {
+            int parent = parentOf(pos);
+            if (list.get(pos).compareTo(list.get(parent)) < 0) {
+                swap(pos, parent);
+                pos = parent;
+            } else {
+                break;
+            }
+        }
     }
 
     /**
