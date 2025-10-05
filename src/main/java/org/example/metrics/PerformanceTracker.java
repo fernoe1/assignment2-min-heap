@@ -1,4 +1,4 @@
-package org.example.algorithms.metrics;
+package org.example.metrics;
 
 import java.io.FileWriter;
 import java.io.IOException;

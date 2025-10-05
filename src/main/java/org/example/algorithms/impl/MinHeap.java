@@ -1,7 +1,7 @@
 package org.example.algorithms.impl;
 
 import org.example.algorithms.IMinHeap;
-import org.example.algorithms.metrics.PerformanceTracker;
+import org.example.metrics.PerformanceTracker;
 
 import java.util.ArrayList;
 import java.util.List;
