@@ -50,4 +50,16 @@ public interface IMinHeap<T extends Comparable<T>> {
      * @param secondHeap the second heap.
      */
     void mergeHeaps(List<T> firstHeap, List<T> secondHeap);
+
+    /**
+     *
+     * @return Returns the size of the heap.
+     */
+    int size();
+
+    /**
+     *
+     * @return Returns heap as a list.
+     */
+    List<T> getHeap();
 }

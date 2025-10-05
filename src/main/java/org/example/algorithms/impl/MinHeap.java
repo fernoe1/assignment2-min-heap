@@ -23,7 +23,7 @@ public class MinHeap<T extends Comparable<T>> implements IMinHeap<T> {
      * @param list Any Physical Data Structure that implements the List interface.
      */
     public MinHeap(List<T> list) {
-        this.list = list;
+        this.list = new ArrayList<>(list);
         buildHeapFast();
     }
 
@@ -33,6 +33,7 @@ public class MinHeap<T extends Comparable<T>> implements IMinHeap<T> {
      * @param secondHeap the second heap.
      */
     public MinHeap(List<T> firstHeap, List<T> secondHeap) {
+        this.list = new ArrayList<>();
         mergeHeaps(firstHeap, secondHeap);
     }
 
@@ -118,7 +119,7 @@ public class MinHeap<T extends Comparable<T>> implements IMinHeap<T> {
     }
 
     /**
-     * Clears current heap and makes new one through merging specified two heaps.
+     * Clears current heap by changing the pointer to the first heap, and then merges them.
      * @param firstHeap the first heap.
      * @param secondHeap the second heap.
      */
@@ -128,6 +129,16 @@ public class MinHeap<T extends Comparable<T>> implements IMinHeap<T> {
         list.addAll(firstHeap);
         list.addAll(secondHeap);
         minHeapBuilder();
+    }
+
+    @Override
+    public int size() {
+        return list.size();
+    }
+
+    @Override
+    public List<T> getHeap() {
+        return list;
     }
 
     /**
@@ -176,6 +187,10 @@ public class MinHeap<T extends Comparable<T>> implements IMinHeap<T> {
      */
     @Override
     public T getMin() {
+        if (list.isEmpty()) {
+            throw new IndexOutOfBoundsException("List is empty");
+        }
+
         return list.getFirst();
     }
 
@@ -185,6 +200,10 @@ public class MinHeap<T extends Comparable<T>> implements IMinHeap<T> {
      */
     @Override
     public T extractMin() {
+        if (list.isEmpty()) {
+            throw new IndexOutOfBoundsException("List is empty");
+        }
+
         T min = getMin();
         list.set(0, list.getLast());
         list.removeLast();
