@@ -15,11 +15,9 @@ public class BenchmarkRunner {
         String heapSize = scanner.nextLine();
 
         System.out.println("Select benchmark to run:");
-        System.out.println("1 = Insert");
-        System.out.println("2 = Extract Min");
-        System.out.println("3 = Decrease Key");
-        System.out.println("4 = Merge Heaps");
-        System.out.println("5 = All Benchmarks");
+        System.out.println("1 = Decrease Key");
+        System.out.println("2 = Merge Heaps");
+        System.out.println("3 = Both");
         System.out.print("Choice: ");
         int choice = Integer.parseInt(scanner.nextLine());
 
@@ -30,11 +28,9 @@ public class BenchmarkRunner {
                 .param("heapSize", heapSize);
 
         switch (choice) {
-            case 1 -> builder.include(".*testInsert.*");
-            case 2 -> builder.include(".*testExtractMin.*");
-            case 3 -> builder.include(".*testDecreaseKey.*");
-            case 4 -> builder.include(".*testMergeHeaps.*");
-            case 5 -> builder.include(".*MinHeapBenchmark.*");
+            case 1 -> builder.include(".*testDecreaseKey.*");
+            case 2 -> builder.include(".*testMergeHeaps.*");
+            case 3 -> builder.include(".*MinHeapBenchmark.*");
             default -> {
                 System.out.println("Invalid choice!");
                 return;

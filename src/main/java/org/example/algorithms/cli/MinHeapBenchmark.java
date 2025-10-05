@@ -36,16 +36,6 @@ public class MinHeapBenchmark {
     }
 
     @Benchmark
-    public void testInsert() {
-        heap.insert(random.nextInt());
-    }
-
-    @Benchmark
-    public void testExtractMin() {
-        heap.extractMin();
-    }
-
-    @Benchmark
     public void testDecreaseKey() {
         int index = random.nextInt(heap.size());
         Integer current = heap.getHeap().get(index);
