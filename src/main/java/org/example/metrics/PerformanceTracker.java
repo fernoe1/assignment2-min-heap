@@ -22,6 +22,8 @@ public class PerformanceTracker {
 
     private static long startTimeMillis = 0;
 
+    private static boolean metricsInitialized = false;
+
     /**
      * Resets all metrics.
      */
@@ -75,12 +77,19 @@ public class PerformanceTracker {
      * Writes metrics to a CSV file
      */
     public static void writeToCSV(String filePath) {
-        boolean fileExists = new java.io.File(filePath).exists();
-        try (FileWriter writer = new FileWriter(filePath)) {
-            if (!fileExists) {
-                writer.append("Operation,HeapSize,ExecutionTime(ms),Comparisons,Swaps,ArrayAccesses,MaxRecursiveDepth\n");
+
+        if (!metricsInitialized) {
+            try (FileWriter fileWriter = new FileWriter(filePath)) {
+                fileWriter.write("Operation,HeapSize,ExecutionTime(ms),Comparisons,Swaps,ArrayAccesses,MaxRecursiveDepth\n");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-            writer.append(String.format("%s,%d,%.3f,%d,%d,%d,%d\n",
+
+            metricsInitialized = true;
+        }
+
+        try (FileWriter fileWriter = new FileWriter(filePath, true)) {
+            fileWriter.write(String.format("%s,%d,%.3f,%d,%d,%d,%d\n",
                     operationName,
                     heapSize,
                     executionTimeMs,
